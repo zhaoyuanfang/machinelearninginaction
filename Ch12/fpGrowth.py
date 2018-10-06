@@ -22,7 +22,7 @@ class treeNode:
         self.count += numOccur
         
     def disp(self, ind=1):
-        print '  '*ind, self.name, ' ', self.count
+        print ('  '*ind, self.name, ' ', self.count)
         for child in self.children.values():
             child.disp(ind+1)
 
@@ -136,7 +136,7 @@ def getLotsOfTweets(searchStr):
     #you can get 1500 results 15 pages * 100 per page
     resultsPages = []
     for i in range(1,15):
-        print "fetching page %d" % i
+        print ("fetching page %d" % i)#this is C style
         searchResults = api.GetSearch(searchStr, per_page=100, page=i)
         resultsPages.append(searchResults)
         sleep(6)

@@ -37,9 +37,9 @@ def buildStump(dataArr,classLabels,D):
                 predictedVals = stumpClassify(dataMatrix,i,threshVal,inequal)#call stump classify with i, j, lessThan
                 errArr = mat(ones((m,1)))
                 errArr[predictedVals == labelMat] = 0
-                print "predictedVals",predictedVals.T,"errArr",errArr.T
+                print ("predictedVals",predictedVals.T,"errArr",errArr.T)
                 weightedError = D.T*errArr  #calc total error multiplied by D
-                print "split: dim %d, thresh %.2f, thresh ineqal: %s, the weighted error is %.3f" % (i, threshVal, inequal, weightedError)
+                print ("split: dim %d, thresh %.2f, thresh ineqal: %s, the weighted error is %.3f" % (i, threshVal, inequal, weightedError))
                 if weightedError < minError:
                     minError = weightedError
                     bestClasEst = predictedVals.copy()
@@ -58,19 +58,19 @@ def adaBoostTrain(dataArr,classLabels,numIt=40):
         #print "error",error
         alpha = float(0.5*log((1.0-error)/max(error,1e-16)))#calc alpha, throw in max(error,eps) to account for error=0
         bestStump['alpha'] = alpha  
-        print "alpha",alpha
+        print ("alpha",alpha)
         weakClassArr.append(bestStump)#store Stump Params in Array
-        print "classEst",classEst
+        print ("classEst",classEst)
         expon = multiply(-1*alpha*mat(classLabels).T,classEst) #exponent for D calc, getting messy
         D = multiply(D,exp(expon)) #Calc New D, element-wise 
         D = D/D.sum()
-        print "D",D
+        print ("D",D)
         #calc training error of all classifiers, if this is 0 quit for loop early (use break)
         aggClassEst += alpha*classEst
-        print "aggClassEst",aggClassEst
+        print ("aggClassEst",aggClassEst)
         aggErrors = multiply(sign(aggClassEst) != mat(classLabels).T,ones((m,1)))
         #print aggErrors
         errorRate = aggErrors.sum()/m
-        print errorRate
+        print (errorRate)
         if errorRate == 0.0: break
     return weakClassArr
